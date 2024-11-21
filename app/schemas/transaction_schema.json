@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "UniqueId": {
+      "type": "string"
+    },
+    "TransactionDateUTC": {
+      "type": "string"
+    },
+    "Itinerary": {
+      "type": "string"
+    },
+    "OriginAirportCode": {
+      "type": "string"
+    },
+    "DestinationAirportCode": {
+      "type": "string"
+    },
+    "OneWayOrReturn": {
+      "type": "string"
+    },
+    "Segment": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "DepartureAirportCode": {
+              "type": "string"
+            },
+            "ArrivalAirportCode": {
+              "type": "string"
+            },
+            "SegmentNumber": {
+              "type": "string"
+            },
+            "LegNumber": {
+              "type": "string"
+            },
+            "NumberOfPassengers": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "DepartureAirportCode",
+            "ArrivalAirportCode",
+            "SegmentNumber",
+            "LegNumber",
+            "NumberOfPassengers"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "DepartureAirportCode": {
+              "type": "string"
+            },
+            "ArrivalAirportCode": {
+              "type": "string"
+            },
+            "SegmentNumber": {
+              "type": "string"
+            },
+            "LegNumber": {
+              "type": "string"
+            },
+            "NumberOfPassengers": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "DepartureAirportCode",
+            "ArrivalAirportCode",
+            "SegmentNumber",
+            "LegNumber",
+            "NumberOfPassengers"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "UniqueId",
+    "TransactionDateUTC",
+    "Itinerary",
+    "OriginAirportCode",
+    "DestinationAirportCode",
+    "OneWayOrReturn",
+    "Segment"
+  ]
+}
