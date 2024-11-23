@@ -44,7 +44,6 @@ default_args = {
 def run_spark_job_task():
     """Task to run the Spark job for processing and storing to BigQuery."""
     run_spark_job(
-        kafka_broker='localhost:9092',
         schema_registry_url='http://localhost:8081'
     )
 
