@@ -119,7 +119,7 @@ project/
 ├── README.md                     # Project documentation
 ```
 
-#Sample Queries
+#Queries
 
 1. Originating Country with Most Transactions
 ```

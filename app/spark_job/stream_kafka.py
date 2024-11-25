@@ -7,21 +7,18 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 # from utils.kafka_to_delta import *
 # from utils.query_definations import *
-from app.utils.kafka_to_delta import *
-from app.utils.query_definations import *
+from utils.kafka_to_delta import *
+from utils.query_definations import *
 
 findspark.init()
 
 
+
+
 # Load configuration from config.yaml
-def load_config(config_file="app/config/config.yaml"):
+def load_config(config_file="config/config.yaml"):
     with open(config_file, 'r') as file:
         return yaml.safe_load(file)
-
-# # Load configuration from config.yaml
-# def load_config(config_file="config/config.yaml"):
-#     with open(config_file, 'r') as file:
-#         return yaml.safe_load(file)
 
 
 
@@ -68,7 +65,7 @@ location_schema_for_delta = StructType([
 ])
 
 os.environ['PYSPARK_SUBMIT_ARGS'] = (
-    '--jars app/jars/delta-spark_2.12-3.2.0.jar '
+    '--jars jars/delta-spark_2.12-3.2.0.jar '
     '--conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" '
     '--conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" '
     '--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.4,'  # Kafka for Scala 2.12

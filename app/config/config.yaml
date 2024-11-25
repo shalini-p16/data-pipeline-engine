@@ -1,17 +1,16 @@
 kafka:
-  broker: "localhost:9092"
-  #broker: "my-kafka:9092"
+  broker: "my-kafka:9092"
 
 
 schema:
-  transaction_schema_path: "app/schemas/transaction_schema.json"
-  location_schema_path: "app/schemas/location_schema.json"
+  transaction_schema_path: "schemas/transaction_schema.json"
+  location_schema_path: "schemas/location_schema.json"
 
 delta:
-  transaction_table_path: "app/delta_table/Transaction"
-  location_table_path: "app/delta_table/Location"
-  checkpoint_path: "app/checkpoint"
-  delta_table_path: "app/delta_table"
+  transaction_table_path: "delta_table/Transaction"
+  location_table_path: "delta_table/Location"
+  checkpoint_path: "checkpoint"
+  delta_table_path: "delta_table"
 
 spark:
   app_name: "KafkaToDelta"
