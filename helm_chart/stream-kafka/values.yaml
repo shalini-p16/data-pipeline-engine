@@ -1,0 +1,62 @@
+name: "data-pipeline-engine"
+image:
+  name: "data-pipeline-engine"
+  repository: "local"
+
+imagePullPolicy: "Never"
+
+sparkVersion: "3.3.4"
+
+service:
+  type: ClusterIP
+  port: 9090
+
+
+storage:
+  checkpoint: "app/checkpoint"
+  deltaTable: "app/delta_table"
+  location:
+    schema: "app/schemas/location_schema.json"
+  transaction:
+    schema: "app/schemas/transaction_schema.json"
+
+kafka:
+  broker: "my-.bk:9092"
+
+applications:
+  StreamKAFKA:
+    enabled: true
+
+sparkConf:
+  spark.sql.extensions: "io.delta.sql.DeltaSparkSessionExtension"
+  spark.sql.catalog.spark_catalog: "org.apache.spark.sql.delta.catalog.DeltaCatalog"
+
+
+restartPolicy:
+  type: Always
+
+serviceAccount:
+  create: true
+  name: "spark"
+
+replicaCount: 3
+
+driver:
+  cores: 1
+  coreLimit: 1000m
+  memory: 512m
+
+executor:
+  cores: 1
+  coreLimit: 1000m
+  memory: 512m
+  instances: 1
+
+autoscaling:
+  enabled: false
+
+dynamicAllocation:
+  enabled: false
+  initialExecutors: 1
+  minExecutors: 1
+  maxExecutors: 1

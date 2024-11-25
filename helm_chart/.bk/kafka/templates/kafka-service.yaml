@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: .bk
+  labels:
+    app: .bk
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.kafkaPort }}
+      targetPort: {{ .Values.service.kafkaPort }}
+      protocol: TCP
+  selector:
+    app: .bk

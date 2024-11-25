@@ -3,7 +3,7 @@ from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 import sys
 sys.path.append(r'C:\Users\shali\PycharmProjects\flight-transaction-location-data-pipeline')
-from app.spark_job.process_kafka_messages import run_spark_job
+from app.spark_job.stream_kafka import run_spark_job
 
 
 # # Add the path to the separate project where Kafka producer resides
@@ -69,5 +69,5 @@ with DAG(
     )
 
     # Set dependencies: Kafka producer task must run before Spark job
-    # kafka_producer_task >> spark_task
+#kafka_producer_task >> spark_task
     spark_task

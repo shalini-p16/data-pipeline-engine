@@ -1,0 +1,61 @@
+{{- if .Values.applications.StreamKAFKA.enabled -}}
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: "stream-.bk"
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: Python
+  pythonVersion: "3"
+  mode: cluster
+  {{- if eq .Values.image.repository "local" }}
+  image: "{{ .Values.image.name }}:latest"
+  {{- else }}
+  image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+  {{- end }}
+  imagePullPolicy: {{ .Values.imagePullPolicy }}
+  mainApplicationFile: local:///opt/spark/scripts/stream-.bk.py
+  arguments:
+    - --location-schema
+    - "{{ .Values.storage.location.schema }}"
+    - --transaction-schema
+    - "{{ .Values.storage.transaction.schema }}"
+    - --checkpoint-path
+    - "{{ .Values.storage.checkpoint }}"
+    - --delta-path
+    - "{{ .Values.storage.deltaTable }}"
+    - --.bk-broker
+    - "{{ .Values..bk.broker }}"
+    - --application-name
+    - "KafkaToDelta"
+  sparkConf:
+    {{- toYaml .Values.sparkConf | nindent 4 }}
+  hadoopConf:
+    {{- toYaml .Values.hadoopConf | nindent 4 }}
+  sparkVersion: {{ .Values.sparkVersion }}
+  restartPolicy:
+    type: {{ .Values.restartPolicy.type }}
+  driver:
+    cores: {{ .Values.driver.cores }}
+    coreLimit: {{ .Values.driver.coreLimit }}
+    memory: {{ .Values.driver.memory }}
+    serviceAccount: {{ .Values.serviceAccount.name }}
+    labels:
+      version: {{ .Values.sparkVersion }}
+    {{- if .Values.driver.envVars }}
+    envVars:
+      {{- toYaml .Values.driver.envVars | nindent 6 }}
+    {{- end }}
+  executor:
+    cores: {{ .Values.executor.cores }}
+    coreLimit: {{ .Values.executor.coreLimit }}
+    memory: {{ .Values.executor.memory }}
+    instances: {{ .Values.executor.instances }}
+    labels:
+      version: {{ .Values.sparkVersion }}
+  dynamicAllocation:
+    enabled: {{ .Values.dynamicAllocation.enabled }}
+    initialExecutors: {{ .Values.dynamicAllocation.initialExecutors }}
+    minExecutors: {{ .Values.dynamicAllocation.minExecutors }}
+    maxExecutors: {{ .Values.dynamicAllocation.maxExecutors }}
+{{- end }}

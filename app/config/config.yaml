@@ -1,0 +1,24 @@
+kafka:
+  broker: "localhost:9092"
+  #broker: "my-kafka:9092"
+
+
+schema:
+  transaction_schema_path: "app/schemas/transaction_schema.json"
+  location_schema_path: "app/schemas/location_schema.json"
+
+delta:
+  transaction_table_path: "app/delta_table/Transaction"
+  location_table_path: "app/delta_table/Location"
+  checkpoint_path: "app/checkpoint"
+  delta_table_path: "app/delta_table"
+
+spark:
+  app_name: "KafkaToDelta"
+  delta_jars: "file:///jar/delta-spark_2.12-3.2.0.jar"
+  kafka_package: "org.apache.spark:spark-sql-.bk-0-10_2.12:3.3.4"
+  delta_storage_package: "io.delta:delta-storage:3.2.0"
+
+logging:
+  level: "INFO"
+  log_file: "logs/spark_job.log"
