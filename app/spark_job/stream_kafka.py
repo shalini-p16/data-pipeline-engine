@@ -5,8 +5,6 @@ import os
 import sys
 # Add the project root directory to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
-# from utils.kafka_to_delta import *
-# from utils.query_definations import *
 from utils.kafka_to_delta import *
 from utils.query_definations import *
 
@@ -65,15 +63,16 @@ location_schema_for_delta = StructType([
 ])
 
 os.environ['PYSPARK_SUBMIT_ARGS'] = (
-    '--jars jars/delta-spark_2.12-3.2.0.jar '
-    '--conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" '
-    '--conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" '
-    '--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.4,'  # Kafka for Scala 2.12
-    'io.delta:delta-storage:3.2.0,'  # Delta Storage for Scala 2.12
-    'org.apache.spark:spark-sql_2.12:3.3.4,'  # Spark SQL for Scala 2.12
-    'org.apache.spark:spark-streaming-kafka-0-10_2.12:3.3.4 '  # Kafka Streaming for Scala 2.12
+    '--jars jars/delta-core_2.12-2.4.0.jar '
+    '--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension '
+    '--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog '
+    '--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0,'
+    'io.delta:delta-storage:2.4.0,'
+    'org.apache.spark:spark-sql_2.12:3.4.0,'
+    'org.apache.spark:spark-streaming-kafka-0-10_2.12:3.4.0 '
     'pyspark-shell'
 )
+
 
 # Kafka topics and paths from config
 transaction_schema_path = config["schema"]["transaction_schema_path"]
