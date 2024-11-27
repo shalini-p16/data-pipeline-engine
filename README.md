@@ -1,7 +1,7 @@
-#Kafka Data Processing with Spark and Delta Lake
+# Kafka Data Processing with Spark and Delta Lake
 This project demonstrates how to consume data from Kafka topics (LocationTopic and TransactionTopic), transform it using Apache Spark, and store it in Delta Lake in Parquet format. The processed data is then queried for analytics and insights
 
-##Table of Contents
+## Table of Contents
 [Project Overview] Project Overview
 [Features] Features
 [Technologies Used] Technologies Used
@@ -12,26 +12,26 @@ This project demonstrates how to consume data from Kafka topics (LocationTopic a
 [Sample Queries] Sample Queries
 [Contributing] Contributing
 
-##Project Overview
+## Project Overview
 This project ingests streaming data from two Kafka topics:
 
 LocationTopic: Contains location information (e.g., airport codes, country names, and regions).
 
 TransactionTopic: Contains transaction details (e.g., itineraries, passenger counts, and segments).
 
-##Workflow
+## Workflow
 1. Data Ingestion: Apache Spark consumes data from Kafka topics.
 2. Transformations: The data undergoes transformations such as schema validation and flattening.
 3. Storage: Processed data is stored in Delta Lake in Parquet format.
 4. Querying: The stored data is queried for insights using SQL.
 
-##Features
+## Features
 1. Real-time data processing using Spark Structured Streaming.
 2. Data transformations including schema validation and enrichment.
 3. Storage of processed data in Delta Lake in Parquet format.
 4. Queryable storage for analytics and reporting.
 
-##Technologies Used
+## Technologies Used
 1. Apache Kafka: For streaming data.
 2. Apache Spark: For data processing and transformation.
 3. Delta Lake: For efficient storage and querying.
@@ -39,11 +39,11 @@ TransactionTopic: Contains transaction details (e.g., itineraries, passenger cou
 5. Parquet: Format for efficient and compressed data storage.
 6. Docker: Containerized deployment.
 
-#Architecture
+# Architecture
 ![img.png](img.png)
 
 
-#Setup and Installation
+# Setup and Installation
 Prerequisites
 1. Python (>= 3.8)
 2. Apache Kafka (set up locally or in Docker)
@@ -51,10 +51,10 @@ Prerequisites
 4. Delta Lake support for Spark
 5. Pip for Python package management
 
-#Installation
+# Installation
 1. Clone the repository:
 ```
-git clone https://github.com/your-username/your-repo-name.git
+[git clone https://github.com/your-username/your-repo-name.git](https://github.com/shalini-p16/data-pipeline-engine/tree/master)
 cd your-repo-name
 ```
 
@@ -119,30 +119,6 @@ project/
 ├── README.md                     # Project documentation
 ```
 
-#Queries
 
-1. Originating Country with Most Transactions
-```
-
-SELECT OriginCountry, COUNT(*) as TransactionCount
-FROM transaction_data
-GROUP BY OriginCountry
-ORDER BY TransactionCount DESC
-LIMIT 1;
-```
-
-2. Domestic vs International Transactions
-Query to find the split between domestic and international transactions:
-
-```
-SELECT 
-    CASE 
-        WHEN OriginCountry = DestinationCountry THEN 'Domestic'
-        ELSE 'International'
-    END AS TransactionType,
-    COUNT(*) AS Count
-FROM transaction_data
-GROUP BY TransactionType;
-```
 
 
