@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-kafka-config
+  labels:
+    app: kafka
+data:
+  kafka-server.properties: |
+    listeners=SASL_PLAINTEXT://:9092
+    advertised.listeners=SASL_PLAINTEXT://{{ .Release.Name }}-kafka:9092
+    listener.security.protocol.map=SASL_PLAINTEXT:SASL_PLAINTEXT
+    sasl.enabled.mechanisms=PLAIN
+    sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required \
+      username="{{ index .Values.auth.jaas.clientUsers 0 }}" \
+      password="{{ index .Values.auth.jaas.clientPasswords 0 }}" \
+      user_{{ index .Values.auth.jaas.interBrokerUser }}="{{ .Values.auth.jaas.interBrokerPassword }}";

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-kafka
+  labels:
+    app: kafka
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: kafka
+  serviceName: {{ .Release.Name }}-kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+      - name: kafka
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: KAFKA_CFG_LISTENERS
+          value: "SASL_PLAINTEXT://:{{ .Values.service.port }}"
+        - name: KAFKA_CFG_ADVERTISED_LISTENERS
+          value: "SASL_PLAINTEXT://{{ .Release.Name }}-kafka:{{ .Values.service.port }}"
+        - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
+          value: "SASL_PLAINTEXT:SASL_PLAINTEXT"
+        - name: KAFKA_CFG_SASL_ENABLED_MECHANISMS
+          value: "PLAIN"
+        - name: KAFKA_CFG_SASL_JAAS_CONFIG
+          value: |
+            org.apache.kafka.common.security.plain.PlainLoginModule required
+            username="{{ index .Values.auth.jaas.clientUsers 0 }}"
+            password="{{ index .Values.auth.jaas.clientPasswords 0 }}"
+            user_{{ index .Values.auth.jaas.interBrokerUser }}="{{ .Values.auth.jaas.interBrokerPassword }}";
+        ports:
+        - name: kafka
+          containerPort: {{ .Values.service.port }}

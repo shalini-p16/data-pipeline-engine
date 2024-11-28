@@ -35,6 +35,9 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          env:
+            - name: ALLOW_PLAINTEXT_LISTENER
+              value: "{{ .Values.kafka.environment.ALLOW_PLAINTEXT_LISTENER }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
